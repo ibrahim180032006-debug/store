@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متجري | تسوّق أفضل المنتجات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============ الأساسيات ============ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #6d28d9;
+  --secondary: #ec4899;
+  --dark: #111827;
+  --gray: #6b7280;
+  --light: #f9fafb;
+  --border: #e5e7eb;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+
+  /* متغيرات الثيم */
+  --bg: #ffffff;
+  --bg-alt: #f9fafb;
+  --bg-card: #ffffff;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --nav-bg: #ffffff;
+}
+
+/* ============ الوضع المظلم ============ */
+body.dark {
+  --dark: #f1f5f9;
+  --gray: #94a3b8;
+  --light: #1e293b;
+  --border: #334155;
+
+  --bg: #0f172a;
+  --bg-alt: #1e293b;
+  --bg-card: #1e293b;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --nav-bg: #1e293b;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.5);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.6);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.7);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ============ شريط الإعلانات ============ */
+.top-bar {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.top-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  to { left: 100%; }
+}
+
+/* ============ شريط التنقل ============ */
+.navbar {
+  background: var(--nav-bg);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s;
+}
+
+.navbar.scrolled {
+  box-shadow: var(--shadow-md);
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 22px;
+  flex-shrink: 0;
+  color: var(--text);
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 900;
+  box-shadow: 0 4px 12px rgba(124,58,237,0.35);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.3s;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 0; height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+  border-radius: 2px;
+}
+
+.nav-links a:hover { color: var(--primary); }
+.nav-links a:hover::after { width: 100%; }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: var(--light);
+  border-radius: 50px;
+  padding: 10px 18px;
+  width: 280px;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.search-box:focus-within {
+  border-color: var(--primary);
+  background: var(--bg);
+}
+
+.search-box input {
+  border: none;
+  background: none;
+  outline: none;
+  flex: 1;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.search-box input::placeholder { color: var(--text-muted); }
+
+.search-box svg { color: var(--gray); flex-shrink: 0; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: all 0.3s;
+}
+
+.icon-btn:hover {
+  background: var(--light);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* زر الثيم */
+#themeToggle svg {
+  transition: transform 0.5s ease;
+}
+
+#themeToggle:hover svg {
+  transform: rotate(180deg);
+}
+
+.badge {
+  position: absolute;
+  top: 4px; left: 4px;
+  background: var(--secondary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-login {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 14px rgba(124,58,237,0.3);
+}
+
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(124,58,237,0.45);
+}
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  color: var(--text);
+}
+
+/* ============ Hero ============ */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 50%, #fdf2f8 100%);
+  padding: 80px 0 100px;
+  overflow: hidden;
+  transition: background 0.4s ease;
+}
+
+body.dark .hero {
+  background: linear-gradient(135deg, #1a0f2e 0%, #0f172a 50%, #2a0f24 100%);
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero-blob-1 {
+  width: 400px; height: 400px;
+  background: #c4b5fd;
+  top: -100px; right: -100px;
+}
+
+.hero-blob-2 {
+  width: 350px; height: 350px;
+  background: #fbcfe8;
+  bottom: -80px; left: -80px;
+  animation-delay: 2s;
+}
+
+body.dark .hero-blob-1 { background: #4c1d95; opacity: 0.5; }
+body.dark .hero-blob-2 { background: #831843; opacity: 0.5; }
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -30px); }
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ede9fe;
+  color: var(--primary-dark);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+body.dark .hero-badge {
+  background: rgba(124, 58, 237, 0.25);
+  color: #c4b5fd;
+}
+
+.hero-badge .dot {
+  width: 8px; height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+.hero h1 {
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  max-width: 500px;
+  line-height: 1.8;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(124,58,237,0.5);
+}
+
+.btn-outline {
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--border-color);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-3px);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding-top: 32px;
+  border-top: 2px solid var(--border-color);
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.hero-image {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.hero-image img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+}
+
+.floating-card {
+  position: absolute;
+  background: var(--bg-card);
+  border-radius: 18px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-lg);
+  animation: bounce 3s ease-in-out infinite;
+}
+
+.floating-card-1 {
+  bottom: -20px; right: -20px;
+}
+
+.floating-card-2 {
+  top: 30px; left: -20px;
+  animation-delay: 1.5s;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.floating-icon.green { background: #d1fae5; }
+.floating-icon.purple { background: #ede9fe; }
+
+body.dark .floating-icon.green { background: rgba(16, 185, 129, 0.2); }
+body.dark .floating-icon.purple { background: rgba(124, 58, 237, 0.25); }
+
+.floating-text-title {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.floating-text-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ============ الأقسام العامة ============ */
+.section {
+  padding: 80px 0;
+  background: var(--bg);
+  transition: background-color 0.4s ease;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-top: 6px;
+}
+
+.carousel-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.nav-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: scale(1.05);
+}
+
+/* ============ شريط المنتجات المتحرك ============ */
+.carousel-wrapper {
+  overflow: hidden;
+  padding: 10px 0;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  animation: scroll 40s linear infinite;
+  width: max-content;
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+
+/* ============ بطاقة المنتج ============ */
+.product-card {
+  background: var(--bg-card);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.4s;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+  border-color: transparent;
+}
+
+.product-image {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--light);
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.12);
+}
+
+.discount-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(239,68,68,0.4);
+}
+
+.new-badge {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: var(--success);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(16,185,129,0.4);
+}
+
+.fav-btn {
+  position: absolute;
+  top: 14px; left: 14px;
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s;
+  color: var(--gray);
+  backdrop-filter: blur(10px);
+}
+
+.product-card:hover .fav-btn {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fav-btn:hover {
+  background: var(--secondary);
+  color: #fff;
+}
+
+.fav-btn.active {
+  background: var(--secondary);
+  color: #fff;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.quick-add {
+  position: absolute;
+  bottom: 0; right: 0; left: 0;
+  padding: 14px;
+  transform: translateY(100%);
+  transition: transform 0.4s;
+}
+
+.product-card:hover .quick-add {
+  transform: translateY(0);
+}
+
+.quick-add button {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  padding: 13px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(124,58,237,0.4);
+}
+
+.quick-add button:hover {
+  background: var(--primary-dark);
+}
+
+.product-info {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-category {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.product-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 45px;
+  transition: color 0.3s;
+}
+
+.product-card:hover .product-name {
+  color: var(--primary);
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.stars {
+  display: flex;
+  color: var(--warning);
+}
+
+.rating-count {
+  color: var(--text-muted);
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.price-current {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.price-old {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* ============ شبكة المنتجات ============ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.products-grid .product-card {
+  width: 100%;
+}
+
+.center-btn-wrap {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.btn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  color: var(--text);
+  padding: 16px 36px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 16px;
+  border: 2px solid var(--border-color);
+  transition: all 0.3s;
+}
+
+.btn-more:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============ المميزات ============ */
+.features {
+  background: var(--bg);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.feature-card {
+  text-align: center;
+  padding: 40px 24px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #faf5ff 0%, #fdf2f8 100%);
+  transition: all 0.4s;
+  border: 2px solid transparent;
+}
+
+body.dark .feature-card {
+  background: linear-gradient(135deg, #1e1b4b 0%, #3b0d3f 100%);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+  width: 80px; height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  box-shadow: 0 10px 30px rgba(124,58,237,0.3);
+}
+
+.feature-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.feature-desc {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ============ الفئات ============ */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.category-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+}
+
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+
+.category-card:hover img {
+  transform: scale(1.1);
+}
+
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  color: #fff;
+}
+
+.category-name {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.category-count {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* ============ النشرة البريدية ============ */
+.newsletter {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 32px;
+  padding: 60px 40px;
+  text-align: center;
+  color: #fff;
+  margin: 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter::before {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  top: -200px; right: -100px;
+}
+
+.newsletter::after {
+  content: '';
+  position: absolute;
+  width: 300px; height: 300px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  bottom: -150px; left: -50px;
+}
+
+.newsletter-content {
+  position: relative;
+  z-index: 2;
+}
+
+.newsletter h2 {
+  font-size: 34px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.newsletter p {
+  font-size: 17px;
+  opacity: 0.95;
+  margin-bottom: 28px;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 12px;
+  max-width: 540px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.newsletter-form input {
+  flex: 1;
+  min-width: 240px;
+  padding: 16px 24px;
+  border-radius: 50px;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--dark);
+  background: #fff;
+}
+
+.newsletter-form button {
+  padding: 16px 32px;
+  border-radius: 50px;
+  background: #fff;
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 15px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.newsletter-form button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* ============ التذييل ============ */
+.footer {
+  background: #0a0f1e;
+  color: #cbd5e1;
+  padding: 70px 0 30px;
+  margin-top: 60px;
+}
+
+body.dark .footer {
+  background: #050810;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-weight: 900;
+  font-size: 22px;
+  color: #fff;
+}
+
+.footer-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 22px;
+  color: #94a3b8;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.social-link {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.footer-title {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: #94a3b8;
+  font-size: 14px;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  transform: translateX(-4px);
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.footer-contact-item svg {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.footer-bottom {
+  border-top: 1px solid #1e293b;
+  padding-top: 28px;
+  text-align: center;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.footer-bottom span {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+/* ============ استجابة الشاشات ============ */
+@media (max-width: 1024px) {
+  .hero h1 { font-size: 44px; }
+  .search-box { width: 200px; }
+  .nav-links { gap: 20px; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .nav-links, .search-box { display: none; }
+  .menu-toggle { display: flex; }
+  .btn-login span { display: none; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero h1 { font-size: 36px; }
+  .hero p { font-size: 16px; }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .stat-value { font-size: 24px; }
+  .section { padding: 60px 0; }
+  .section-title { font-size: 26px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .newsletter { padding: 40px 24px; }
+  .newsletter h2 { font-size: 24px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-image img { height: 350px; }
+  .floating-card-1, .floating-card-2 { display: none; }
+}
+
+/* ============ قائمة الجوال ============ */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.mobile-menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-content {
+  position: absolute;
+  top: 0; right: 0;
+  width: 300px;
+  height: 100%;
+  background: var(--bg-card);
+  padding: 30px 24px;
+  transform: translateX(100%);
+  transition: transform 0.4s;
+  overflow-y: auto;
+}
+
+.mobile-menu.active .mobile-menu-content {
+  transform: translateX(0);
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.mobile-close {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+}
+
+.mobile-menu-links a {
+  display: block;
+  padding: 14px 0;
+  font-weight: 700;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-color);
+  transition: color 0.3s;
+}
+
+.mobile-menu-links a:hover { color: var(--primary); }
+
+/* ============ زر العودة للأعلى ============ */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s;
+  z-index: 900;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top:hover { transform: translateY(-4px) scale(1.05); }
+
+/* ============ إشعار ============ */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--dark);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-xl);
+  transform: translateX(150%);
+  transition: transform 0.4s;
+  z-index: 3000;
+  max-width: 90vw;
+}
+
+body.dark .toast {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.toast.show { transform: translateX(0); }
+.toast.success { border-right: 4px solid var(--success); }
+</style>
+</head>
+<body>
+
+<!-- ============ شريط الإعلانات العلوي ============ -->
+<div class="top-bar">
+  🎉 توصيل مجاني للطلبات فوق 5,000 د.ج &nbsp;|&nbsp; استخدم كود <strong>مرحبا10</strong> للحصول على خصم 10%
+</div>
+
+<!-- ============ شريط التنقل ============ -->
+<header class="navbar" id="navbar">
+  <div class="container">
+    <div class="nav-content">
+      <!-- الشعار -->
+      <a href="#" class="logo">
+        <div class="logo-icon">م</div>
+        <span>متجري</span>
+      </a>
+
+      <!-- الروابط -->
+      <nav class="nav-links">
+        <a href="#">الرئيسية</a>
+        <a href="#products">المنتجات</a>
+        <a href="#categories">الفئات</a>
+        <a href="#about">من نحن</a>
+        <a href="#contact">اتصل بنا</a>
+      </nav>
+
+      <!-- البحث -->
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="ابحث عن منتج..." id="searchInput">
+      </div>
+
+      <!-- الأزرار -->
+      <div class="nav-actions">
+
+        <!-- زر تبديل الوضع المظلم/المضيء -->
+        <button class="icon-btn" id="themeToggle" title="تبديل الوضع" onclick="toggleTheme()">
+          <svg id="themeIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <button class="icon-btn" title="المفضلة">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+
+        <button class="icon-btn" title="السلة" onclick="showToast('لديك 3 منتجات في السلة')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="badge">3</span>
+        </button>
+
+        <a href="login.html" class="btn-login">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span>تسجيل الدخول</span>
+        </a>
+
+        <button class="menu-toggle" onclick="openMobileMenu()" title="القائمة">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ قسم Hero ============ -->
+<section class="hero">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          جديد! تشكيلة 2025 وصلت
+        </div>
+
+        <h1>
+          تسوّق أحدث
+          <span class="gradient-text">المنتجات</span>
+          بأفضل الأسعار
+        </h1>
+
+        <p>
+          اكتشف آلاف المنتجات المختارة بعناية من أفضل العلامات التجارية.
+          توصيل سريع، دفع آمن، وضمان الجودة على جميع الطلبات.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#products" class="btn btn-primary">
+            تسوّق الآن
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </a>
+          <a href="#categories" class="btn btn-outline">اكتشف الجديد</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <div class="stat-value" data-target="10000" data-suffix="+">0</div>
+            <div class="stat-label">منتج متنوع</div>
+          </div>
+          <div>
+            <div class="stat-value" data-target="50000" data-suffix="+">0</div>
+            <div class="stat-label">عميل سعيد</div>
+          </div>
+          <div>
+            <div class="stat-value" data-target="4.9" data-decimal="true">0</div>
+            <div class="stat-label">تقييم العملاء</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image-wrap">
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80" alt="تسوق">
+        </div>
+
+        <div class="floating-card floating-card-1">
+          <div class="floating-icon green">✅</div>
+          <div>
+            <div class="floating-text-title">توصيل مجاني</div>
+            <div class="floating-text-sub">للطلبات فوق 5,000 د.ج</div>
+          </div>
+        </div>
+
+        <div class="floating-card floating-card-2">
+          <div class="floating-icon purple">⚡</div>
+          <div>
+            <div class="floating-text-title">شحن سريع</div>
+            <div class="floating-text-sub">خلال 24 ساعة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ شريط المنتجات المتحرك ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">🔥 الأكثر مبيعاً</h2>
+        <p class="section-subtitle">المنتجات التي يحبها عملاؤنا أكثر من غيرها</p>
+      </div>
+      <div class="carousel-nav">
+        <button class="nav-btn" onclick="scrollCarousel(-1)" title="السابق">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+        <button class="nav-btn" onclick="scrollCarousel(1)" title="التالي">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-wrapper" id="carouselWrapper">
+    <div class="carousel-track" id="carouselTrack">
+      <!-- سيتم توليد البطاقات بالجافاسكربت -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ الفئات ============ -->
+<section class="section" id="categories" style="background:var(--bg-alt);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">📦 تسوّق حسب الفئة</h2>
+        <p class="section-subtitle">اختر الفئة التي تناسبك واستكشف منتجاتها</p>
+      </div>
+    </div>
+
+    <div class="categories-grid">
+      <div class="category-card">
+        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=500&q=80" alt="إلكترونيات">
+        <div class="category-overlay">
+          <div class="category-name">إلكترونيات</div>
+          <div class="category-count">+2,400 منتج</div>
+        </div>
+      </div>
+      <div class="category-card">
+        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=500&q=80" alt="أزياء">
+        <div class="category-overlay">
+          <div class="category-name">أزياء وملابس</div>
+          <div class="category-count">+3,100 منتج</div>
+        </div>
+      </div>
+      <div class="category-card">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=80" alt="عطور">
+        <div class="category-overlay">
+          <div class="category-name">عطور ومكياج</div>
+          <div class="category-count">+1,800 منتج</div>
+        </div>
+      </div>
+      <div class="category-card">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80" alt="منزل">
+        <div class="category-overlay">
+          <div class="category-name">المنزل والمطبخ</div>
+          <div class="category-count">+2,700 منتج</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ كل المنتجات ============ -->
+<section class="section" id="products">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">🛍️ كل المنتجات</h2>
+        <p class="section-subtitle">تصفح تشكيلتنا الكاملة واختر ما يناسبك</p>
+      </div>
+      <a href="#" class="btn-more" style="padding:12px 24px; font-size:14px;">مشاهدة الكل</a>
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+      <!-- سيتم توليد البطاقات بالجافاسكربت -->
+    </div>
+
+    <div class="center-btn-wrap">
+      <button class="btn-more" onclick="loadMoreProducts()">
+        <span id="loadMoreText">مشاهدة المزيد من المنتجات</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ المميزات ============ -->
+<section class="section features">
+  <div class="container">
+    <div class="section-header" style="justify-content:center; text-align:center;">
+      <div style="text-align:center; width:100%;">
+        <h2 class="section-title" style="justify-content:center;">✨ لماذا تختارنا؟</h2>
+        <p class="section-subtitle">نقدم لك تجربة تسوق استثنائية</p>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3 class="feature-title">توصيل سريع</h3>
+        <p class="feature-desc">توصيل خلال 24-48 ساعة لجميع الولايات الـ 58 مع تتبع مباشر لطلبك خطوة بخطوة.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">دفع آمن 100%</h3>
+        <p class="feature-desc">جميع المعاملات مشفرة ومحمية بأحدث تقنيات الأمان العالمية.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">↩️</div>
+        <h3 class="feature-title">إرجاع مجاني</h3>
+        <p class="feature-desc">إرجاع مجاني خلال 14 يوماً من الاستلام بدون أي أسئلة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ النشرة البريدية ============ -->
+<section class="container" id="contact">
+  <div class="newsletter">
+    <div class="newsletter-content">
+      <h2>📬 اشترك في نشرتنا البريدية</h2>
+      <p>كن أول من يعرف عن العروض الحصرية والمنتجات الجديدة</p>
+      <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+        <input type="email" placeholder="أدخل بريدك الإلكتروني" required>
+        <button type="submit">اشترك الآن</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ التذييل ============ -->
+<footer class="footer" id="about">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="logo-icon">م</div>
+          <span>متجري</span>
+        </div>
+        <p class="footer-desc">
+          متجرك الإلكتروني الموثوق. نقدم أفضل المنتجات بأسعار تنافسية مع ضمان الجودة والتوصيل السريع لجميع ولايات الجزائر.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="فيسبوك">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="إنستغرام">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+            </svg>
+          </a>
+          <a href="#" class="social-link" title="تويتر">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="footer-title">روابط سريعة</h3>
+        <ul class="footer-links">
+          <li><a href="#">الرئيسية</a></li>
+          <li><a href="#products">المنتجات</a></li>
+          <li><a href="#categories">الفئات</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footer-title">خدمة العملاء</h3>
+        <ul class="footer-links">
+          <li><a href="#">سياسة الاستبدال</a></li>
+          <li><a href="#">سياسة الخصوصية</a></li>
+          <li><a href="#">الشروط والأحكام</a></li>
+          <li><a href="#">الأسئلة الشائعة</a></li>
+          <li><a href="#">تتبع الطلب</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footer-title">تواصل معنا</h3>
+        <div class="footer-contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          <span>الجزائر العاصمة، الجزائر</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span dir="ltr">+213 550 000 000</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>info@mystore.dz</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 <span>متجري</span>. جميع الحقوق محفوظة | صُنع بـ ❤️ في الجزائر
+    </div>
+  </div>
+</footer>
+
+<!-- ============ زر العودة للأعلى ============ -->
+<button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="العودة للأعلى">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="12" y1="19" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<!-- ============ إشعار ============ -->
+<div class="toast" id="toast">
+  <span id="toastIcon">✅</span>
+  <span id="toastText">تمت الإضافة بنجاح</span>
+</div>
+
+<!-- ============ قائمة الجوال ============ -->
+<div class="mobile-menu" id="mobileMenu" onclick="closeMobileMenu(event)">
+  <div class="mobile-menu-content" onclick="event.stopPropagation()">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <div class="logo-icon">م</div>
+        <span>متجري</span>
+      </div>
+      <button class="mobile-close" onclick="closeMobileMenu()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="#" onclick="closeMobileMenu()">الرئيسية</a>
+      <a href="#products" onclick="closeMobileMenu()">المنتجات</a>
+      <a href="#categories" onclick="closeMobileMenu()">الفئات</a>
+      <a href="#about" onclick="closeMobileMenu()">من نحن</a>
+      <a href="#contact" onclick="closeMobileMenu()">اتصل بنا</a>
+      <a href="login.html" style="color: var(--primary); font-weight: 900;">🔐 تسجيل الدخول</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ تبديل الوضع المظلم/المضيء ============ */
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  updateThemeIcon(isDark);
+}
+
+function updateThemeIcon(isDark) {
+  const icon = document.getElementById('themeIcon');
+  if (!icon) return;
+  icon.innerHTML = isDark
+    ? `<circle cx="12" cy="12" r="5"></circle>
+       <line x1="12" y1="1" x2="12" y2="3"></line>
+       <line x1="12" y1="21" x2="12" y2="23"></line>
+       <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+       <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+       <line x1="1" y1="12" x2="3" y2="12"></line>
+       <line x1="21" y1="12" x2="23" y2="12"></line>
+       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`
+    : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+}
+
+// تطبيق الوضع المحفوظ فوراً قبل تحميل الصفحة
+(function applyStoredTheme() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) {
+    document.body.classList.add('dark');
+  }
+})();
+
+/* ============ بيانات المنتجات (بالدينار الجزائري) ============ */
+const products = [
+  {
+    id: 1, name: 'ساعة ذكية احترافية مع مقاومة للماء',
+    price: 8500, oldPrice: 12000, rating: 4.8, reviews: 234,
+    category: 'إلكترونيات', isNew: false,
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80'
+  },
+  {
+    id: 2, name: 'حذاء رياضي مريح للجري والتمارين',
+    price: 3500, oldPrice: 5000, rating: 4.6, reviews: 189,
+    category: 'أزياء', isNew: false,
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80'
+  },
+  {
+    id: 3, name: 'سماعات لاسلكية عازلة للضوضاء',
+    price: 2200, oldPrice: 3200, rating: 4.9, reviews: 512,
+    category: 'إلكترونيات', isNew: false,
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80'
+  },
+  {
+    id: 4, name: 'حقيبة جلدية أنيقة للرجال',
+    price: 4500, oldPrice: null, rating: 4.7, reviews: 98,
+    category: 'أزياء', isNew: true,
+    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80'
+  },
+  {
+    id: 5, name: 'نظارة شمسية عصرية بحماية UV400',
+    price: 2800, oldPrice: 4000, rating: 4.5, reviews: 145,
+    category: 'أزياء', isNew: false,
+    image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&q=80'
+  },
+  {
+    id: 6, name: 'كاميرا احترافية بدقة 4K',
+    price: 25000, oldPrice: null, rating: 4.9, reviews: 76,
+    category: 'إلكترونيات', isNew: true,
+    image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&q=80'
+  },
+  {
+    id: 7, name: 'عطر فاخر برائحة شرقية',
+    price: 6500, oldPrice: 8500, rating: 4.8, reviews: 328,
+    category: 'عطور', isNew: false,
+    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80'
+  },
+  {
+    id: 8, name: 'لوحة مفاتيح ميكانيكية للألعاب',
+    price: 4200, oldPrice: null, rating: 4.6, reviews: 201,
+    category: 'إلكترونيات', isNew: true,
+    image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80'
+  },
+  {
+    id: 9, name: 'حقيبة ظهر عملية للمدرسة والعمل',
+    price: 1900, oldPrice: 2600, rating: 4.4, reviews: 167,
+    category: 'أزياء', isNew: false,
+    image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80'
+  },
+  {
+    id: 10, name: 'مكبر صوت بلوتوث محمول',
+    price: 2500, oldPrice: 3500, rating: 4.7, reviews: 289,
+    category: 'إلكترونيات', isNew: false,
+    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&q=80'
+  },
+  {
+    id: 11, name: 'ساعة يد كلاسيكية أنيقة',
+    price: 7000, oldPrice: 9000, rating: 4.5, reviews: 112,
+    category: 'أزياء', isNew: false,
+    image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=400&q=80'
+  },
+  {
+    id: 12, name: 'شاحن لاسلكي سريع للموبايل',
+    price: 1300, oldPrice: 1900, rating: 4.3, reviews: 445,
+    category: 'إلكترونيات', isNew: false,
+    image: 'https://images.unsplash.com/photo-1591290619762-e3b4daa3d9b9?w=400&q=80'
+  }
+];
+
+/* ============ تنسيق السعر بالدينار الجزائري ============ */
+function formatPrice(price) {
+  return price.toLocaleString('en-US') + ' د.ج';
+}
+
+/* ============ توليد بطاقة منتج ============ */
+function createProductCard(product) {
+  const discount = product.oldPrice
+    ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+    : 0;
+
+  const starsHTML = Array.from({ length: 5 }, (_, i) => {
+    const fill = i < Math.floor(product.rating) ? 'currentColor' : 'none';
+    return `<svg width="14" height="14" viewBox="0 0 24 24" fill="${fill}" stroke="currentColor" stroke-width="1.5">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+    </svg>`;
+  }).join('');
+
+  let badge = '';
+  if (discount > 0) {
+    badge = `<span class="discount-badge">-${discount}%</span>`;
+  } else if (product.isNew) {
+    badge = `<span class="new-badge">جديد</span>`;
+  }
+
+  return `
+    <div class="product-card">
+      <div class="product-image">
+        <img src="${product.image}" alt="${product.name}" loading="lazy">
+        ${badge}
+        <button class="fav-btn" onclick="toggleFav(this, event)" title="أضف للمفضلة">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+        <div class="quick-add">
+          <button onclick="addToCart('${product.name}')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            أضف إلى السلة
+          </button>
+        </div>
+      </div>
+      <div class="product-info">
+        <span class="product-category">${product.category}</span>
+        <h3 class="product-name">${product.name}</h3>
+        <div class="product-rating">
+          <div class="stars">${starsHTML}</div>
+          <span class="rating-count">(${product.reviews})</span>
+        </div>
+        <div class="product-price">
+          <span class="price-current">${formatPrice(product.price)}</span>
+          ${product.oldPrice ? `<span class="price-old">${formatPrice(product.oldPrice)}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============ تعبئة الشريط المتحرك ============ */
+function initCarousel() {
+  const track = document.getElementById('carouselTrack');
+  const featured = products.slice(0, 8);
+  track.innerHTML = [...featured, ...featured].map(createProductCard).join('');
+}
+
+/* ============ تعبئة شبكة المنتجات ============ */
+let displayedCount = 8;
+
+function initProductsGrid() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = products.slice(0, displayedCount).map(createProductCard).join('');
+}
+
+function loadMoreProducts() {
+  displayedCount = Math.min(displayedCount + 4, products.length);
+  initProductsGrid();
+
+  if (displayedCount >= products.length) {
+    document.getElementById('loadMoreText').textContent = 'لا توجد منتجات أخرى';
+    document.querySelector('.btn-more[onclick="loadMoreProducts()"]').disabled = true;
+    document.querySelector('.btn-more[onclick="loadMoreProducts()"]').style.opacity = '0.5';
+    document.querySelector('.btn-more[onclick="loadMoreProducts()"]').style.cursor = 'not-allowed';
+  }
+}
+
+/* ============ الإضافة للسلة ============ */
+function addToCart(name) {
+  showToast(`تمت إضافة "${name}" إلى السلة`);
+}
+
+/* ============ المفضلة ============ */
+function toggleFav(btn, event) {
+  event.stopPropagation();
+  btn.classList.toggle('active');
+  const isActive = btn.classList.contains('active');
+  showToast(isActive ? 'تمت الإضافة للمفضلة ❤️' : 'تمت الإزالة من المفضلة');
+}
+
+/* ============ إشعار ============ */
+let toastTimeout;
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastText').textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+/* ============ التمرير للشريط ============ */
+function scrollCarousel(direction) {
+  const track = document.getElementById('carouselTrack');
+  track.style.animationPlayState = 'paused';
+  track.scrollBy({ left: direction * 300, behavior: 'smooth' });
+}
+
+/* ============ قائمة الجوال ============ */
+function openMobileMenu() {
+  document.getElementById('mobileMenu').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('mobileMenu').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+/* ============ زر العودة للأعلى ============ */
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('navbar');
+  const scrollTop = document.getElementById('scrollTop');
+
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+
+  if (window.scrollY > 400) {
+    scrollTop.classList.add('visible');
+  } else {
+    scrollTop.classList.remove('visible');
+  }
+});
+
+/* ============ النشرة البريدية ============ */
+function subscribeNewsletter(e) {
+  e.preventDefault();
+  showToast('تم الاشتراك بنجاح! شكراً لك 🎉');
+  e.target.reset();
+}
+
+/* ============ العد التصاعدي للأرقام ============ */
+function animateCounters() {
+  document.querySelectorAll('.stat-value').forEach(el => {
+    const target = parseFloat(el.dataset.target);
+    const isDecimal = el.dataset.decimal === 'true';
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const steps = 60;
+    const step = target / steps;
+    let current = 0;
+    let count = 0;
+
+    const timer = setInterval(() => {
+      count++;
+      current += step;
+      if (count >= steps) {
+        current = target;
+        clearInterval(timer);
+      }
+      el.textContent = isDecimal
+        ? current.toFixed(1)
+        : Math.floor(current).toLocaleString('en-US') + suffix;
+    }, duration / steps);
+  });
+}
+
+/* ============ التهيئة ============ */
+document.addEventListener('DOMContentLoaded', () => {
+  initCarousel();
+  initProductsGrid();
+  updateThemeIcon(document.body.classList.contains('dark'));
+
+  // تشغيل العدادات عند الوصول إليها
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounters();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const stats = document.querySelector('.hero-stats');
+  if (stats) observer.observe(stats);
+
+  // ============ تحديث زر تسجيل الدخول بناءً على حالة المستخدم ============
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  const userPhone = localStorage.getItem('userPhone');
+
+  if (user || userPhone) {
+    const loginBtn = document.querySelector('.btn-login');
+    if (loginBtn) {
+      const name = user?.name || 'حسابي';
+      const firstName = name.split(' ')[0];
+      loginBtn.innerHTML = `
+        <div style="width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px;">
+          ${firstName.charAt(0)}
+        </div>
+        <span>${firstName}</span>
+      `;
+      loginBtn.href = '#';
+      loginBtn.title = 'اضغط للخروج';
+
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (confirm('هل تريد تسجيل الخروج؟')) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('userPhone');
+          window.location.reload();
+        }
+      });
+    }
+  }
+});
+</script>
+
+</body>
+</html>
