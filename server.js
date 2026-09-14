@@ -18,14 +18,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// فحص وتطهير المتغيرات البيئية من أي مسافات مخفية وتحويل الرابط لضمان توافقه مع Render
-const cleanUrl = process.env.TURSO_DATABASE_URL?.trim().replace(/^libsql:\/\//, 'https://');
+// فحص وتطهير المتغيرات البيئية من أي مسافات مخفية (تم إزالة تحويل الرابط لضمان التوافق)
+const cleanUrl = process.env.TURSO_DATABASE_URL?.trim();
 const cleanToken = process.env.TURSO_AUTH_TOKEN?.trim();
 
 if (!cleanUrl || !cleanToken) {
   console.error('🚨 [تحذير هام]: المتغيرات البيئية TURSO_DATABASE_URL أو TURSO_AUTH_TOKEN مفقودة أو غير مقروءة!');
 } else {
-  console.log('🔗 رابط القاعدة بعد المعالجة:', cleanUrl);
+  console.log('🔗 رابط القاعدة الجاهز للاستخدام:', cleanUrl);
 }
 
 // الاتصال بقاعدة بيانات Turso عبر المتغيرات المعالجة
