@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { createClient } from '@libsql/client';
+import { createClient } from '@tursodatabase/serverless/compat';
 
 // 1. إضافة رادار الأخطاء الشامل لالتقاط أي مشكلة مخفية في النظام
 process.on('unhandledRejection', (reason, promise) => {
@@ -18,8 +18,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// فحص وتطهير المتغيرات البيئية من أي مسافات مخفية وتحويل الرابط لضمان توافقه مع Render
-const cleanUrl = process.env.TURSO_DATABASE_URL?.trim().replace(/^libsql:\/\//, 'https://');
+// فحص وتطهير المتغيرات البيئية من أي مسافات مخفية (تم إزالة تحويل الرابط)
+const cleanUrl = process.env.TURSO_DATABASE_URL?.trim();
 const cleanToken = process.env.TURSO_AUTH_TOKEN?.trim();
 
 if (!cleanUrl || !cleanToken) {
