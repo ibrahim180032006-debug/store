@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حسابي | متجري</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============ الأساسيات ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #6d28d9;
+  --primary-light: #ede9fe;
+  --secondary: #ec4899;
+  --success: #10b981;
+  --success-light: #d1fae5;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --info: #3b82f6;
+  --info-light: #dbeafe;
+
+  --bg: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-alt: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+input, select, textarea { font-family: inherit; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ============ الشريط العلوي ============ */
+.top-bar {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.navbar {
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--text);
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 15px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--primary);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--danger-light);
+  color: var(--danger);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.btn-logout:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ============ المحتوى الرئيسي ============ */
+.main {
+  padding: 40px 0 80px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-header h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ============ بطاقة الملف الشخصي ============ */
+.profile-card {
+  background: var(--bg-card);
+  border-radius: 24px;
+  padding: 32px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  position: sticky;
+  top: 100px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--primary-light);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 44px;
+  font-weight: 900;
+}
+
+.avatar-edit {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid var(--bg-card);
+  transition: all 0.3s;
+}
+
+.avatar-edit:hover {
+  background: var(--primary-dark);
+  transform: scale(1.1);
+}
+
+.avatar-edit input { display: none; }
+
+.profile-name {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.profile-phone {
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.profile-stat {
+  text-align: center;
+}
+
+.profile-stat-value {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--primary);
+}
+
+.profile-stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* ============ التبويبات ============ */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: var(--bg-alt);
+  padding: 6px;
+  border-radius: 16px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: var(--bg-card);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.tab-btn:hover:not(.active) {
+  color: var(--text);
+}
+
+/* ============ بطاقة المحتوى ============ */
+.content-card {
+  background: var(--bg-card);
+  border-radius: 24px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+
+.card-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* ============ النماذج ============ */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: var(--bg-alt);
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 600;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--primary);
+  background: var(--bg-card);
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(124,58,237,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(124,58,237,0.45);
+}
+
+.btn-outline {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  color: var(--text);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* ============ قائمة الطلبات ============ */
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--bg-alt);
+  margin-bottom: 12px;
+  transition: all 0.3s;
+  flex-wrap: wrap;
+}
+
+.order-item:hover {
+  background: var(--primary-light);
+}
+
+.order-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.order-number {
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.order-date {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.order-total {
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.order-status {
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.status-pending { background: var(--warning-light); color: var(--warning); }
+.status-confirmed { background: var(--info-light); color: var(--info); }
+.status-shipped { background: var(--primary-light); color: var(--primary); }
+.status-delivered { background: var(--success-light); color: var(--success); }
+.status-cancelled { background: var(--danger-light); color: var(--danger); }
+
+/* ============ الحالة الفارغة ============ */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+/* ============ الإشعار ============ */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  background: var(--text);
+  color: var(--bg-card);
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-weight: 700;
+  box-shadow: var(--shadow-xl);
+  transform: translateX(-150%);
+  transition: transform 0.4s;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toast.show { transform: translateX(0); }
+.toast.success { border-right: 4px solid var(--success); }
+.toast.error { border-right: 4px solid var(--danger); }
+
+/* ============ الاستجابة ============ */
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-card {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .tabs { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ الشريط العلوي ============ -->
+<div class="top-bar">
+  🎉 توصيل مجاني للطلبات فوق 5,000 د.ج
+</div>
+
+<!-- ============ شريط التنقل ============ -->
+<header class="navbar">
+  <div class="container">
+    <div class="nav-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">م</div>
+        <span>متجري</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="index.html#products">المنتجات</a>
+        <a href="profile.html" class="active">حسابي</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-logout" onclick="logout()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          خروج
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ المحتوى الرئيسي ============ -->
+<main class="main">
+  <div class="container">
+
+    <div class="page-header">
+      <h1>مرحباً، <span id="userName">الزبون</span> 👋</h1>
+      <p>يمكنك إدارة معلوماتك وتتبع طلباتك من هنا</p>
+    </div>
+
+    <div class="profile-grid">
+
+      <!-- ============ بطاقة الملف الشخصي ============ -->
+      <div class="profile-card">
+        <div class="avatar-wrapper">
+          <div class="avatar" id="avatarDisplay">ز</div>
+          <label class="avatar-edit" for="avatarInput">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <input type="file" id="avatarInput" accept="image/*" onchange="uploadAvatar(event)">
+          </label>
+        </div>
+
+        <div class="profile-name" id="profileName">الاسم الكامل</div>
+        <div class="profile-phone" id="profilePhone" dir="ltr">+213 5XX XX XX XX</div>
+
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="profile-stat-value" id="statOrders">0</div>
+            <div class="profile-stat-label">طلب</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat-value" id="statSpent">0</div>
+            <div class="profile-stat-label">د.ج إجمالي</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ المحتوى ============ -->
+      <div>
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="info" onclick="switchTab('info')">📝 معلوماتي</button>
+          <button class="tab-btn" data-tab="address" onclick="switchTab('address')">📍 العناوين</button>
+          <button class="tab-btn" data-tab="password" onclick="switchTab('password')">🔐 كلمة المرور</button>
+          <button class="tab-btn" data-tab="orders" onclick="switchTab('orders')">🛒 طلباتي</button>
+        </div>
+
+        <!-- تبويب المعلومات -->
+        <div class="content-card" id="tab-info">
+          <h2 class="card-title">المعلومات الشخصية</h2>
+          <p class="card-subtitle">عدّل بياناتك الشخصية</p>
+
+          <form id="infoForm" onsubmit="saveInfo(event)">
+            <div class="form-group">
+              <label class="form-label">الاسم الكامل</label>
+              <input type="text" class="form-input" id="infoFullName" placeholder="الاسم الكامل">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">رقم الهاتف الأساسي</label>
+                <input type="tel" class="form-input" id="infoPhone" placeholder="05XXXXXXXX" dir="ltr" disabled>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم الهاتف الثانوي</label>
+                <input type="tel" class="form-input" id="infoPhone2" placeholder="05XXXXXXXX" dir="ltr">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">الولاية</label>
+                <select class="form-select" id="infoWilaya"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">البلدية</label>
+                <input type="text" class="form-input" id="infoBaladiya" placeholder="البلدية">
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">💾 حفظ التغييرات</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- تبويب العناوين -->
+        <div class="content-card" id="tab-address" style="display: none;">
+          <h2 class="card-title">عنوان الشحن</h2>
+          <p class="card-subtitle">العنوان الذي ستُرسل إليه طلباتك</p>
+
+          <form id="addressForm" onsubmit="saveAddress(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">الولاية</label>
+                <select class="form-select" id="shipWilaya"></select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">البلدية</label>
+                <input type="text" class="form-input" id="shipBaladiya" placeholder="البلدية">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">العنوان بالتفصيل</label>
+              <textarea class="form-textarea" id="shipAddress" placeholder="الشارع، رقم المنزل، أي تفاصيل إضافية..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">💾 حفظ العنوان</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- تبويب كلمة المرور -->
+        <div class="content-card" id="tab-password" style="display: none;">
+          <h2 class="card-title">تغيير كلمة المرور</h2>
+          <p class="card-subtitle">احرص على اختيار كلمة مرور قوية</p>
+
+          <form id="passwordForm" onsubmit="changePassword(event)">
+            <div class="form-group">
+              <label class="form-label">كلمة المرور الحالية</label>
+              <input type="password" class="form-input" id="currentPassword" placeholder="أدخل كلمة المرور الحالية">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">كلمة المرور الجديدة</label>
+              <input type="password" class="form-input" id="newPassword" placeholder="6 أحرف على الأقل">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">تأكيد كلمة المرور الجديدة</label>
+              <input type="password" class="form-input" id="confirmNewPassword" placeholder="أعد إدخال كلمة المرور الجديدة">
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">🔐 تغيير كلمة المرور</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- تبويب الطلبات -->
+        <div class="content-card" id="tab-orders" style="display: none;">
+          <h2 class="card-title">طلباتي</h2>
+          <p class="card-subtitle">تتبع حالة طلباتك</p>
+
+          <div id="ordersList">
+            <div class="empty-state">
+              <div class="empty-state-icon">📦</div>
+              <h3>لا توجد طلبات بعد</h3>
+              <p>عندما تقوم بطلب، سيظهر هنا</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ============ الإشعار ============ -->
+<div class="toast" id="toast">
+  <span id="toastIcon">✅</span>
+  <span id="toastText">تم بنجاح</span>
+</div>
+
+<script>
+/* ============ قائمة الولايات ============ */
+const wilayas = [
+  "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة",
+  "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
+  "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو",
+  "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
+  "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة",
+  "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
+  "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس",
+  "36 - الطارف", "37 - تندوف", "38 - تيسمسيلت", "39 - الوادي", "40 - خنشلة",
+  "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة",
+  "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون",
+  "50 - برج باجي مختار", "51 - أولاد جلال", "52 - بني عباس", "53 - عين صالح",
+  "54 - عين قزام", "55 - تقرت", "56 - جانت", "57 - المغير", "58 - المنيعة"
+];
+
+/* ============ تهيئة الولايات ============ */
+function initWilayas() {
+  const selectors = ['infoWilaya', 'shipWilaya'];
+  selectors.forEach(id => {
+    const select = document.getElementById(id);
+    if (!select) return;
+    select.innerHTML = '<option value="">اختر الولاية</option>';
+    wilayas.forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w;
+      opt.textContent = w;
+      select.appendChild(opt);
+    });
+  });
+}
+
+/* ============ جلب بيانات الزبون ============ */
+async function loadUserData() {
+  // في هذا الكود، نفترض أن رقم الهاتف محفوظ في localStorage
+  // في تطبيق حقيقي، ستستخدم جلسة (session) أو توكن (token)
+  const userPhone = localStorage.getItem('userPhone');
+
+  if (!userPhone) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  try {
+    // ⚠️ هذا الرابط مؤقت - سنستبدله بـ API حقيقي لاحقًا
+    // const response = await fetch(`/api/user?phone=${encodeURIComponent(userPhone)}`);
+    // const user = await response.json();
+
+    // بيانات تجريبية مؤقتًا (سنستبدلها ببيانات حقيقية من Turso)
+    const user = {
+      fullName: 'أحمد بن علي',
+      phone: userPhone,
+      phone2: '0550111222',
+      wilaya: '16 - الجزائر',
+      baladiya: 'الجزائر الوسطى',
+      avatarUrl: null,
+      totalOrders: 3,
+      totalSpent: 25000
+    };
+
+    displayUserData(user);
+  } catch (error) {
+    console.error('خطأ في جلب البيانات:', error);
+    showToast('حدث خطأ في جلب البيانات', 'error');
+  }
+}
+
+/* ============ عرض بيانات الزبون ============ */
+function displayUserData(user) {
+  // الاسم
+  document.getElementById('userName').textContent = user.fullName.split(' ')[0];
+  document.getElementById('profileName').textContent = user.fullName;
+
+  // الهاتف
+  document.getElementById('profilePhone').textContent = user.phone;
+
+  // الصورة الرمزية
+  if (user.avatarUrl) {
+    document.getElementById('avatarDisplay').innerHTML = `<img src="${user.avatarUrl}" alt="${user.fullName}">`;
+  } else {
+    document.getElementById('avatarDisplay').textContent = user.fullName.charAt(0);
+  }
+
+  // الإحصائيات
+  document.getElementById('statOrders').textContent = user.totalOrders || 0;
+  document.getElementById('statSpent').textContent = (user.totalSpent || 0).toLocaleString('en-US');
+
+  // نموذج المعلومات
+  document.getElementById('infoFullName').value = user.fullName || '';
+  document.getElementById('infoPhone').value = user.phone || '';
+  document.getElementById('infoPhone2').value = user.phone2 || '';
+  document.getElementById('infoWilaya').value = user.wilaya || '';
+  document.getElementById('infoBaladiya').value = user.baladiya || '';
+
+  // نموذج العنوان
+  document.getElementById('shipWilaya').value = user.wilaya || '';
+  document.getElementById('shipBaladiya').value = user.baladiya || '';
+}
+
+/* ============ تبديل التبويبات ============ */
+function switchTab(tabName) {
+  // إخفاء كل التبويبات
+  document.querySelectorAll('.content-card').forEach(card => {
+    card.style.display = 'none';
+  });
+
+  // إظهار التبويب المطلوب
+  document.getElementById('tab-' + tabName).style.display = 'block';
+
+  // تحديث الأزرار
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+
+  // تحميل الطلبات عند فتح تبويب الطلبات
+  if (tabName === 'orders') {
+    loadOrders();
+  }
+}
+
+/* ============ حفظ المعلومات ============ */
+async function saveInfo(e) {
+  e.preventDefault();
+
+  const data = {
+    fullName: document.getElementById('infoFullName').value.trim(),
+    phone2: document.getElementById('infoPhone2').value.trim(),
+    wilaya: document.getElementById('infoWilaya').value,
+    baladiya: document.getElementById('infoBaladiya').value.trim()
+  };
+
+  try {
+    // ⚠️ هذا مؤقت - سنستبدله بـ API حقيقي
+    // await fetch('/api/user', { method: 'PUT', body: JSON.stringify(data) });
+    console.log('بيانات محدثة:', data);
+    showToast('تم حفظ المعلومات بنجاح ✅', 'success');
+  } catch (error) {
+    showToast('حدث خطأ في الحفظ', 'error');
+  }
+}
+
+/* ============ حفظ العنوان ============ */
+async function saveAddress(e) {
+  e.preventDefault();
+
+  const data = {
+    shippingWilaya: document.getElementById('shipWilaya').value,
+    shippingBaladiya: document.getElementById('shipBaladiya').value.trim(),
+    shippingAddress: document.getElementById('shipAddress').value.trim()
+  };
+
+  try {
+    console.log('عنوان محدث:', data);
+    showToast('تم حفظ العنوان بنجاح ✅', 'success');
+  } catch (error) {
+    showToast('حدث خطأ في الحفظ', 'error');
+  }
+}
+
+/* ============ تغيير كلمة المرور ============ */
+async function changePassword(e) {
+  e.preventDefault();
+
+  const current = document.getElementById('currentPassword').value;
+  const newPass = document.getElementById('newPassword').value;
+  const confirm = document.getElementById('confirmNewPassword').value;
+
+  if (newPass.length < 6) {
+    showToast('كلمة المرور الجديدة قصيرة جداً', 'error');
+    return;
+  }
+
+  if (newPass !== confirm) {
+    showToast('كلمتا المرور غير متطابقتين', 'error');
+    return;
+  }
+
+  try {
+    // ⚠️ هذا مؤقت
+    // await fetch('/api/user/password', { method: 'PUT', body: JSON.stringify({ current, newPass }) });
+    console.log('تغيير كلمة المرور');
+    showToast('تم تغيير كلمة المرور بنجاح 🔐', 'success');
+    document.getElementById('passwordForm').reset();
+  } catch (error) {
+    showToast('حدث خطأ في تغيير كلمة المرور', 'error');
+  }
+}
+
+/* ============ رفع الصورة الرمزية ============ */
+async function uploadAvatar(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // معاينة محلية
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    document.getElementById('avatarDisplay').innerHTML = `<img src="${ev.target.result}" alt="Avatar">`;
+  };
+  reader.readAsDataURL(file);
+
+  // ⚠️ هنا سنقوم برفع الصورة إلى Cloudinary لاحقًا
+  // const formData = new FormData();
+  // formData.append('file', file);
+  // await fetch('/api/upload/avatar', { method: 'POST', body: formData });
+
+  showToast('تم تحديث الصورة الشخصية ✅', 'success');
+}
+
+/* ============ تحميل الطلبات ============ */
+async function loadOrders() {
+  const container = document.getElementById('ordersList');
+
+  try {
+    // ⚠️ هذا مؤقت - سنستبدله بـ API حقيقي
+    // const response = await fetch('/api/orders');
+    // const orders = await response.json();
+
+    // بيانات تجريبية
+    const orders = [
+      { id: 'ORD-1024', date: '2025-01-15', total: 8500, status: 'pending', items: 1 },
+      { id: 'ORD-1023', date: '2025-01-14', total: 12500, status: 'confirmed', items: 2 },
+      { id: 'ORD-1022', date: '2025-01-13', total: 3500, status: 'shipped', items: 1 },
+      { id: 'ORD-1021', date: '2025-01-10', total: 22000, status: 'delivered', items: 3 }
+    ];
+
+    if (orders.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📦</div>
+          <h3>لا توجد طلبات بعد</h3>
+          <p>عندما تقوم بطلب، سيظهر هنا</p>
+        </div>
+      `;
+      return;
+    }
+
+    const statusLabels = {
+      pending: 'قيد الانتظار',
+      confirmed: 'مؤكد',
+      shipped: 'قيد الشحن',
+      delivered: 'تم التوصيل',
+      cancelled: 'ملغى'
+    };
+
+    container.innerHTML = orders.map(order => `
+      <div class="order-item">
+        <div class="order-info">
+          <div class="order-number">${order.id}</div>
+          <div class="order-date">${order.date} • ${order.items} منتج</div>
+        </div>
+        <div class="order-total">${order.total.toLocaleString('en-US')} د.ج</div>
+        <div class="order-status status-${order.status}">${statusLabels[order.status]}</div>
+      </div>
+    `).join('');
+
+  } catch (error) {
+    console.error('خطأ في تحميل الطلبات:', error);
+    showToast('حدث خطأ في تحميل الطلبات', 'error');
+  }
+}
+
+/* ============ تسجيل الخروج ============ */
+function logout() {
+  if (!confirm('هل تريد تسجيل الخروج؟')) return;
+  localStorage.removeItem('userPhone');
+  localStorage.removeItem('user');
+  window.location.href = 'login.html';
+}
+
+/* ============ الإشعار ============ */
+let toastTimeout;
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastIcon').textContent = type === 'success' ? '✅' : '❌';
+  document.getElementById('toastText').textContent = message;
+  toast.className = 'toast ' + type;
+  setTimeout(() => toast.classList.add('show'), 10);
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+/* ============ التهيئة ============ */
+document.addEventListener('DOMContentLoaded', () => {
+  initWilayas();
+  loadUserData();
+});
+</script>
+
+</body>
+</html>
