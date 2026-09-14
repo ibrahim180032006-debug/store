@@ -252,7 +252,7 @@ input { font-family: inherit; }
   <!-- الجانب التزييني -->
   <aside class="auth-side">
     <div class="side-content">
-      <a href="home.html" class="side-logo">
+      <a href="index.html" class="side-logo">
         <div class="side-logo-icon">م</div>
         <span>متجري</span>
       </a>
@@ -303,7 +303,7 @@ input { font-family: inherit; }
   <main class="auth-form-side">
     <div class="form-wrapper">
 
-      <a href="home.html" class="back-home">
+      <a href="index.html" class="back-home">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
@@ -331,7 +331,7 @@ input { font-family: inherit; }
               id="phone"
               class="input-field with-prefix"
               placeholder="5XX XX XX XX"
-              maxlength="13"
+              maxlength="20"
               autocomplete="tel"
             >
           </div>
@@ -495,8 +495,8 @@ function validateForm() {
   return valid;
 }
 
-/* ============ إرسال النموذج ============ */
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+/* ============ إرسال النموذج إلى الخادم ============ */
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   if (!validateForm()) return;
 
@@ -504,27 +504,57 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   btn.classList.add('loading');
   btn.disabled = true;
 
-  const phone = phoneInput.value.trim();
+  // تجهيز البيانات
+  const phone = phoneInput.value.replace(/\s/g, '');     // 0556554475
+  const password = document.getElementById('password').value;
   const remember = document.getElementById('remember').checked;
 
-  // محاكاة الاتصال بالخادم
-  setTimeout(() => {
-    btn.classList.remove('loading');
-    btn.disabled = false;
+  console.log('📤 محاولة دخول:', { phone });
 
-    if (remember) {
-      localStorage.setItem('userPhone', '+213 ' + phone);
-    } else {
-      localStorage.removeItem('userPhone');
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, password })
+    });
+
+    const data = await response.json();
+    console.log('📥 رد الخادم:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'فشل تسجيل الدخول');
     }
 
-    showToast('تم تسجيل الدخول بنجاح! جاري التوجيه...', 'success');
+    // ✅ نجح الدخول
+    const user = data.user;
 
+    // احفظ بيانات المستخدم حسب "تذكرني"
+    if (remember) {
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('userPhone', user.phone);
+    } else {
+      sessionStorage.setItem('user', JSON.stringify(user));
+    }
+
+    showToast(`مرحباً ${user.fullName} 👋`, 'success');
+
+    // 🎯 التوجيه حسب الدور (role)
     setTimeout(() => {
-      window.location.href = 'home.html';
-    }, 1500);
+      if (user.role === 'admin') {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = 'profile.html';
+      }
+    }, 1200);
 
-  }, 1500);
+  } catch (error) {
+    console.error('❌ خطأ في تسجيل الدخول:', error);
+    showError('phone', error.message);
+    showError('password', error.message);
+    showToast(error.message, 'error');
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
 });
 
 /* ============ الإشعارات ============ */
@@ -540,12 +570,32 @@ function showToast(message, type = 'success') {
   toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-/* ============ تعبئة الرقم المحفوظ ============ */
+/* ============ التهيئة عند التحميل ============ */
 document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('userPhone');
-  if (saved) {
-    phoneInput.value = saved.replace('+213 ', '');
+  // تعبئة الرقم المحفوظ (تذكرني)
+  const savedPhone = localStorage.getItem('userPhone');
+  if (savedPhone) {
+    // تنسيق الرقم للعرض: 0556554475 => 055 65 54 47 5
+    let v = savedPhone.replace(/\D/g, '');
+    if (v.length > 3) v = v.slice(0, 3) + ' ' + v.slice(3);
+    if (v.length > 6) v = v.slice(0, 6) + ' ' + v.slice(6);
+    if (v.length > 9) v = v.slice(0, 9) + ' ' + v.slice(9);
+    if (v.length > 12) v = v.slice(0, 12) + ' ' + v.slice(12);
+    phoneInput.value = v;
     document.getElementById('remember').checked = true;
+  }
+
+  // إذا جاء المستخدم من صفحة التسجيل
+  const lastRegistered = localStorage.getItem('lastRegisteredPhone');
+  if (lastRegistered) {
+    let v = lastRegistered.replace(/\D/g, '');
+    if (v.length > 3) v = v.slice(0, 3) + ' ' + v.slice(3);
+    if (v.length > 5) v = v.slice(0, 3) + ' ' + v.slice(3, 5) + ' ' + v.slice(5);
+    if (v.length > 7) v = v.slice(0, 3) + ' ' + v.slice(3, 5) + ' ' + v.slice(5, 7) + ' ' + v.slice(7);
+    phoneInput.value = v;
+    localStorage.removeItem('lastRegisteredPhone');
+    showToast('تم إنشاء حسابك! الرجاء تسجيل الدخول', 'success');
+    document.getElementById('password').focus();
   }
 });
 </script>
