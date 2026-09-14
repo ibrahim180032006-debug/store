@@ -306,8 +306,212 @@ app.get('/api/settings', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-// Render يقدم البورت تلقائياً
-const PORT = process.env.PORT || 3000;
+/* ============================================================
+   API التسجيل - إنشاء حساب جديد
+   ============================================================ */
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { fullName, phone, phone2, password, wilaya, baladiya } = req.body;
+
+    if (!fullName || !phone || !password || !wilaya || !baladiya) {
+      return res.status(400).json({ error: 'جميع الحقول المطلوبة يجب تعبئتها' });
+    }
+
+    // التحقق من أن الرقم غير مستخدم
+    const existing = await db.execute({
+      sql: "SELECT id FROM users WHERE phone = ?",
+      args: [phone]
+    });
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ error: 'هذا الرقم مسجل بالفعل' });
+    }
+
+    // تشفير كلمة المرور
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // إضافة المستخدم
+    const result = await db.execute({
+      sql: `INSERT INTO users (full_name, phone, phone2, password, role, wilaya, baladiya)
+            VALUES (?, ?, ?, ?, 'customer', ?, ?)`,
+      args: [fullName, phone, phone2 || null, hashedPassword, wilaya, baladiya]
+    });
+
+    // إنشاء إشعار للأدمن
+    await db.execute({
+      sql: "INSERT INTO notifications (type, title, message) VALUES ('user', ?, ?)",
+      args: ['عميل جديد', `${fullName} أنشأ حساباً جديداً`]
+    });
+
+    res.json({
+      success: true,
+      userId: result.lastInsertRowid,
+      message: 'تم إنشاء الحساب بنجاح'
+    });
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   API تسجيل الدخول (للزبائن والأدمن)
+   ============================================================ */
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { phone, password } = req.body;
+    if (!phone || !password) {
+      return res.status(400).json({ error: 'البيانات مطلوبة' });
+    }
+
+    const cleanPhone = phone.replace(/\s/g, '').replace('+213', '0');
+
+    const result = await db.execute({
+      sql: "SELECT * FROM users WHERE phone = ? LIMIT 1",
+      args: [cleanPhone]
+    });
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'رقم الهاتف أو كلمة المرور غير صحيحة' });
+    }
+
+    const user = result.rows[0];
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      return res.status(401).json({ error: 'رقم الهاتف أو كلمة المرور غير صحيحة' });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        fullName: user.full_name,
+        phone: user.phone,
+        phone2: user.phone2,
+        role: user.role,
+        wilaya: user.wilaya,
+        baladiya: user.baladiya,
+        avatarUrl: user.avatar_url,
+        totalOrders: user.total_orders,
+        totalSpent: user.total_spent
+      }
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   API البروفايل - جلب بيانات المستخدم
+   ============================================================ */
+app.get('/api/profile/:id', async (req, res) => {
+  try {
+    const result = await db.execute({
+      sql: "SELECT id, full_name, phone, phone2, role, wilaya, baladiya, address, shipping_wilaya, shipping_baladiya, shipping_address, avatar_url, total_orders, total_spent, created_at FROM users WHERE id = ?",
+      args: [req.params.id]
+    });
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'المستخدم غير موجود' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   API تعديل البروفايل
+   ============================================================ */
+app.put('/api/profile/:id', async (req, res) => {
+  try {
+    const { fullName, phone2, wilaya, baladiya, address,
+            shippingWilaya, shippingBaladiya, shippingAddress, avatarUrl } = req.body;
+
+    await db.execute({
+      sql: `UPDATE users SET
+              full_name = ?,
+              phone2 = ?,
+              wilaya = ?,
+              baladiya = ?,
+              address = ?,
+              shipping_wilaya = ?,
+              shipping_baladiya = ?,
+              shipping_address = ?,
+              avatar_url = ?
+            WHERE id = ?`,
+      args: [
+        fullName, phone2 || null, wilaya, baladiya, address || null,
+        shippingWilaya || wilaya, shippingBaladiya || baladiya, shippingAddress || null,
+        avatarUrl || null, req.params.id
+      ]
+    });
+
+    res.json({ success: true, message: 'تم تحديث البيانات' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   API تغيير كلمة المرور
+   ============================================================ */
+app.put('/api/profile/:id/password', async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'كلمتا المرور مطلوبتان' });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'كلمة المرور الجديدة قصيرة' });
+    }
+
+    const user = await db.execute({
+      sql: "SELECT password FROM users WHERE id = ?",
+      args: [req.params.id]
+    });
+
+    if (user.rows.length === 0) {
+      return res.status(404).json({ error: 'المستخدم غير موجود' });
+    }
+
+    const valid = await bcrypt.compare(currentPassword, user.rows[0].password);
+    if (!valid) {
+      return res.status(401).json({ error: 'كلمة المرور الحالية غير صحيحة' });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await db.execute({
+      sql: "UPDATE users SET password = ? WHERE id = ?",
+      args: [hashed, req.params.id]
+    });
+
+    res.json({ success: true, message: 'تم تغيير كلمة المرور' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   API طلبات المستخدم
+   ============================================================ */
+app.get('/api/profile/:id/orders', async (req, res) => {
+  try {
+    const result = await db.execute({
+      sql: `SELECT o.*,
+              (SELECT COUNT(*) FROM order_items WHERE order_id = o.id) as items_count
+            FROM orders o
+            WHERE o.user_id = ?
+            ORDER BY o.created_at DESC`,
+      args: [req.params.id]
+    });
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
